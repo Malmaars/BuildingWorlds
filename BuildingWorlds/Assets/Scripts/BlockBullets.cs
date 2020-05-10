@@ -9,7 +9,11 @@ public class BlockBullets : MonoBehaviour
 
     public Vector3 originalSwordPos;
     public Quaternion originalSwordRot;
-    //public ParticleSystem Clinck;
+    public ParticleSystem Clinck;
+    public ParticleSystem Slash;
+
+    public float timer;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -20,17 +24,19 @@ public class BlockBullets : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
-            Sword.transform.localRotation = SwordBlock.localRotation;
-            Sword.transform.localPosition = SwordBlock.localPosition;
+            //Sword.transform.localRotation = SwordBlock.localRotation;
+            //Sword.transform.localPosition = SwordBlock.localPosition;
+            Slash.Play();
+
             GetComponent<BoxCollider>().enabled = true;
         }
 
         if (Input.GetMouseButtonUp(1))
         {
-            Sword.transform.localRotation = originalSwordRot;
-            Sword.transform.localPosition = originalSwordPos;
+            //Sword.transform.localRotation = originalSwordRot;
+            //Sword.transform.localPosition = originalSwordPos;
             GetComponent<BoxCollider>().enabled = false;
         }
     }
@@ -42,7 +48,8 @@ public class BlockBullets : MonoBehaviour
             other.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             other.gameObject.GetComponent<Rigidbody>().AddForce(this.transform.forward * 40, ForceMode.Impulse);
             other.transform.up = this.transform.forward;
-            //Clinck.Play();
+            Clinck.transform.position = other.transform.position;
+            Clinck.Play();
         }
     }
 }
