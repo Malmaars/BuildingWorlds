@@ -60,7 +60,7 @@ public class Gun : MonoBehaviour
 
             if(hit.transform.GetComponent<Rigidbody>() != null)
             {
-                hit.transform.GetComponent<Rigidbody>().AddForce(fpsCam.transform.forward * 3, ForceMode.Impulse);
+                hit.transform.GetComponent<Rigidbody>().AddForce(fpsCam.transform.forward * 5, ForceMode.Impulse);
             }
         }
     }
