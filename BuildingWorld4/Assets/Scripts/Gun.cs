@@ -13,6 +13,7 @@ public class Gun : MonoBehaviour
     public Camera fpsCam;
     public Transform Player;
     public ParticleSystem MuzzleFlash;
+    public GameObject impactEffect;
 
     private float nextTimeToFire;
 
@@ -39,6 +40,7 @@ public class Gun : MonoBehaviour
             Debug.Log(hit.transform.name + hit.point);
 
             GameObject temp = Instantiate(wall, hit.point, Quaternion.FromToRotation(Vector3.up,hit.normal));
+            Debug.Log(hit.normal);
         }
     }
 
@@ -60,8 +62,9 @@ public class Gun : MonoBehaviour
 
             if(hit.transform.GetComponent<Rigidbody>() != null)
             {
-                hit.transform.GetComponent<Rigidbody>().AddForce(fpsCam.transform.forward * 5, ForceMode.Impulse);
+                hit.transform.GetComponent<Rigidbody>().AddForce(fpsCam.transform.forward * 10, ForceMode.Impulse);
             }
+            Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
         }
     }
 }
