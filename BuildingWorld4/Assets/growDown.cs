@@ -16,7 +16,7 @@ public class growDown : MonoBehaviour
         {
             Kids.Add(transform.GetChild(i).gameObject);
         }
-        growSpeed = 0.1f;
+        growSpeed = 0.02f;
     }
 
     // Update is called once per frame

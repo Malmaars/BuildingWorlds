@@ -14,7 +14,7 @@ public class GrowUp : MonoBehaviour
     void Awake()
     {
         this.transform.localScale = Vector3.zero;
-        growSpeed = 0.1f;
+        growSpeed = 0.05f;
         MyBuilding = Instantiate(Building, this.transform.GetChild(0).position, this.transform.rotation, this.transform);
     }
 

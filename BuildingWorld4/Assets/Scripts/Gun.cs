@@ -39,8 +39,11 @@ public class Gun : MonoBehaviour
         {
             Debug.Log(hit.transform.name + hit.point);
 
-            GameObject temp = Instantiate(wall, hit.point, Quaternion.FromToRotation(Vector3.up,hit.normal));
-            Debug.Log(hit.normal);
+            if (hit.transform.gameObject.tag == "Environment")
+            {
+                Instantiate(wall, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
+                Debug.Log(hit.normal);
+            }
         }
     }
 
