@@ -22,16 +22,28 @@ public class TargetPoint : MonoBehaviour
     //Check if the leg is already moving
     private bool isMoving = false;
 
+    //How fast we move the legs
+    private float moveSpeed;
+
+    //The Legs that are opposite to this one, we're gonna check if they're grounded or not
+    public Transform oppositeLeg1;
+    public Transform oppositeLeg2;
+
+    //check if the correspondend leg is grounded
+    bool isGrounded;
+    float groundDistance = 0.4f;
+
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        moveSpeed = 20f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        isGrounded = Physics.CheckSphere(bottomLeg.position, groundDistance);
         //shoot out a raycast and check if it hits anything
         RaycastHit hit;
         if(Physics.Raycast(new Vector3(transform.position.x,transform.position.y + 3, transform.position.z), -Vector3.up, out hit, 10f, ~IgnoreMe))
@@ -43,8 +55,8 @@ public class TargetPoint : MonoBehaviour
             //Use the formula to calculate the difference between two points, because we want a different movement between the x and the z axis.
             //And check if the leg is already moving
             if(((hit.point.x - bottomLeg.position.x) * (hit.point.x - bottomLeg.position.x) > 5f*5f ||
-                (hit.point.z - bottomLeg.position.z) * (hit.point.z - bottomLeg.position.z) > 3f*3f)
-                && isMoving == false)
+                (hit.point.z - bottomLeg.position.z) * (hit.point.z - bottomLeg.position.z) > 3f*3f) &&
+                isMoving == false)
             {
                 //make the current location of the foot the old position
                 oldPos = bottomLeg.position;
@@ -62,13 +74,24 @@ public class TargetPoint : MonoBehaviour
         }
 
         //If we are moving
-        if (isMoving == true)
+        if (isMoving == true &&
+            oppositeLeg1.GetComponentInChildren<TargetPoint>().isGrounded == true &&
+            oppositeLeg2.GetComponentInChildren<TargetPoint>().isGrounded == true)
         {
             //the height the leg will raise during steps. Initialise to 0, because we need to initialise it
-            float stepHeight;
+            float stepHeight = 0;
 
             //Calculate the difference between the height of the target and the height of the old position. Add 2. Now we have a height that looks good on all angles
-            stepHeight = Mathf.Pow(Mathf.Pow((currentTarget.y - oldPos.y), 2), 0.5f) + 5;
+
+            if(currentTarget.y >= oldPos.y)
+            {
+                stepHeight = currentTarget.y + 5;
+            }
+
+            if (currentTarget.y < oldPos.y)
+            {
+                stepHeight = oldPos.y + 5;
+            }
 
             //Continuously calculate the distance between the target and the current position of the foot, but only on the x and z axis
             float distanceFromT = Mathf.Pow(Mathf.Pow((currentTarget.x - bottomLeg.position.x), 2) + Mathf.Pow((currentTarget.z - bottomLeg.position.z), 2), 0.5f);
@@ -78,14 +101,14 @@ public class TargetPoint : MonoBehaviour
             { 
                 Vector3 halfWay = new Vector3(currentTarget.x, stepHeight, currentTarget.z);
                 // move leg upward
-                bottomLeg.position = Vector3.MoveTowards(bottomLeg.position, halfWay, 20f * Time.deltaTime);
+                bottomLeg.position = Vector3.MoveTowards(bottomLeg.position, halfWay, moveSpeed * Time.deltaTime);
             }
 
             //if We are on the second half of the journey, move the leg back down again
             if (distanceFromT < distanceOld/2)
             {
                 // move leg downward
-                bottomLeg.position = Vector3.MoveTowards(bottomLeg.position, currentTarget, 20f * Time.deltaTime);
+                bottomLeg.position = Vector3.MoveTowards(bottomLeg.position, currentTarget, moveSpeed * Time.deltaTime);
             }
 
 
