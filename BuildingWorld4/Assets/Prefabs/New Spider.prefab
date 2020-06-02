@@ -609,6 +609,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   bottomLeg: {fileID: 2059606560184133294}
+  moveSpeed: 30
   oppositeLeg1: {fileID: 2059606561072522159}
   oppositeLeg2: {fileID: 2059606560708760383}
 --- !u!1 &2059606560245752242
@@ -909,6 +910,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   bottomLeg: {fileID: 2059606559924109500}
+  moveSpeed: 30
   oppositeLeg1: {fileID: 2059606561905020547}
   oppositeLeg2: {fileID: 2059606561519278698}
 --- !u!1 &2059606560302981435
@@ -1238,6 +1240,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   bottomLeg: {fileID: 2059606561181216837}
+  moveSpeed: 30
   oppositeLeg1: {fileID: 2059606561905020547}
   oppositeLeg2: {fileID: 2059606561519278698}
 --- !u!1 &2059606560596743046
@@ -2091,6 +2094,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   bottomLeg: {fileID: 2059606561551076439}
+  moveSpeed: 30
   oppositeLeg1: {fileID: 2059606561072522159}
   oppositeLeg2: {fileID: 2059606560708760383}
 --- !u!1 &2059606561033980875
@@ -3781,3 +3785,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BodyTarget: {fileID: 2059606561925529929}
+  moveSpeed: 0.1
