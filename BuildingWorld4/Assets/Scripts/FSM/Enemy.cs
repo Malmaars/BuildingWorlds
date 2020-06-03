@@ -11,6 +11,9 @@ public class Enemy : MonoBehaviour
     public Transform player;
     public LayerMask enemyLayer;
 
+    public int health;
+    public GameObject deathEnemy;
+
     public float maxAngle;
     public float maxRadius;
     public float viewRange;
@@ -33,5 +36,11 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
         EnemySM.CurrentState.PhysicsUpdate();
+    }
+
+    public void Die()
+    {
+        //Instantiate(deathEnemy, transform.position, transform.rotation);
+        Destroy(this.transform.parent.gameObject);
     }
 }

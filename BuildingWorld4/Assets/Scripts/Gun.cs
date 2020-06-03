@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    public float damage = 10f;
+    public int damage = 1;
     public float range = 100f;
     public float fireRate = 100f;
     public GameObject wall;
     public GameObject brokenWall;
+    public LayerMask enemyLayer;
 
     public Camera fpsCam;
     public Transform Player;
@@ -61,6 +62,11 @@ public class Gun : MonoBehaviour
         //Check if we hit something
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
+            if (hit.transform.GetComponent<Enemy>() != null)
+            {
+                hit.transform.GetComponent<Enemy>().health -= damage;
+            }
+
             Debug.Log("Pew");
 
             if(hit.transform.parent != null)

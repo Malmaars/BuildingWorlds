@@ -29,6 +29,7 @@ public class TargetPoint : MonoBehaviour
     public Transform oppositeLeg1;
     public Transform oppositeLeg2;
 
+    private Vector3 debugVector;
     //check if the correspondend leg is grounded
     bool isGrounded;
     float groundDistance = 0.2f;
@@ -44,6 +45,7 @@ public class TargetPoint : MonoBehaviour
         {
             bottomLeg.position = new Vector3(bottomLeg.position.x, hit.point.y, bottomLeg.position.z);
         }
+
     }
 
     // Update is called once per frame
@@ -56,7 +58,7 @@ public class TargetPoint : MonoBehaviour
         if(Physics.Raycast(new Vector3(transform.position.x,transform.position.y + 3, transform.position.z), -Vector3.up, out hit, 100f, ~IgnoreMe))
         {
             //make sure we're always on the ground
-            transform.position = hit.point;
+            transform.localPosition = new Vector3(transform.localPosition.x, hit.point.y, transform.localPosition.z);
             //Debug.Log(Vector3.Distance(hit.point, bottomLeg.position));
 
             //Use the formula to calculate the difference between two points, because we want a different movement between the x and the z axis.
