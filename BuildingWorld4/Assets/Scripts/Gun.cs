@@ -67,7 +67,7 @@ public class Gun : MonoBehaviour
                 hit.transform.GetComponent<Enemy>().health -= damage;
             }
 
-            Debug.Log("Pew");
+            //Debug.Log("Pew");
 
             if(hit.transform.parent != null)
             {

@@ -7,9 +7,13 @@ public class Enemy : MonoBehaviour
 
     public EnemyStateMachine EnemySM;
     public WanderState wander;
+    public AttackState attack;
 
     public Transform player;
     public LayerMask enemyLayer;
+
+    public Transform rightEye;
+    public Transform leftEye;
 
     public int health;
     public GameObject deathEnemy;
@@ -18,11 +22,13 @@ public class Enemy : MonoBehaviour
     public float maxRadius;
     public float viewRange;
     public float moveSpeed;
+    public float rotSpeed;
     // Start is called before the first frame update
     private void Start()
     {
         EnemySM = new EnemyStateMachine();
         wander = new WanderState(this, EnemySM);
+        attack = new AttackState(this, EnemySM);
         enemyLayer = LayerMask.GetMask("Enemy");
 
         EnemySM.Initialize(wander);
@@ -32,6 +38,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         EnemySM.CurrentState.LogicUpdate();
+        Debug.Log(EnemySM.CurrentState);
     }
     private void FixedUpdate()
     {

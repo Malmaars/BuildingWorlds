@@ -2,17 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackState : MonoBehaviour
+public class AttackState : EnemyState
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public AttackState(Enemy enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void PhysicsUpdate()
     {
-        
+        base.PhysicsUpdate();
+
+        enemy.rightEye.LookAt(enemy.player.position);
+        enemy.leftEye.LookAt(enemy.player.position);
+
+        Vector3 direction = enemy.player.position - enemy.transform.position;
+        direction.y = 0;
+        Quaternion toRotation = Quaternion.LookRotation(direction);
+        enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, toRotation, enemy.rotSpeed * Time.deltaTime);
+
+        //enemy.transform.position = enemy.transform.position + (enemy.transform.forward * Time.deltaTime * enemy.moveSpeed / 3);
+    }
+
+    public void Fire()
+    {
+
     }
 }

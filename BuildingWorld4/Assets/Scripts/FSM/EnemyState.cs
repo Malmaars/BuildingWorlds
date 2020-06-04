@@ -22,7 +22,10 @@ public abstract class EnemyState
     public virtual void LogicUpdate()
     {
         if (isInFov)
-            Debug.Log("I can see youu");
+            stateMachine.ChangeState(enemy.attack);
+
+        if (!isInFov)
+            stateMachine.ChangeState(enemy.wander);
 
         if(enemy.health <= 0)
         {
