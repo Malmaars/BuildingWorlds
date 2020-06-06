@@ -17,8 +17,10 @@ public class WanderState : EnemyState
     public override void PhysicsUpdate(){
         base.PhysicsUpdate();
 
-        enemy.rightEye.transform.localRotation = new Quaternion(0, 0, 0, 0);
-        enemy.leftEye.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        foreach (Transform eye in enemy.Eyes)
+        {
+            eye.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        }
 
         Debug.DrawRay(enemy.transform.position, enemy.transform.forward * enemy.viewRange, Color.red);
 

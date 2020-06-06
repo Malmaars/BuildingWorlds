@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
@@ -8,8 +9,17 @@ public class Gun : MonoBehaviour
     public float range = 100f;
     public float fireRate = 100f;
     public GameObject wall;
-    public GameObject brokenWall;
+    public GameObject hologram;
     public LayerMask enemyLayer;
+    public Material seeThrough;
+    public Material badSeeThrough;
+
+    private GameObject wallTemp;
+
+    public Image[] buildMeter;
+    public Sprite fullBuild;
+    public Sprite emptyBuild;
+    public int buildCount = 3;
 
     public Camera fpsCam;
     public Transform Player;
@@ -21,73 +31,120 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire2"))
-        {
-            Build();
-        }
-
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
-        {
-            //Make sure we can't really shoot every frame
-            nextTimeToFire = Time.time + 1f / fireRate;
-            Shoot();
-        }
-    }
-
-    void Build ()
-    {
         RaycastHit hit;
 
         //Check if we hit something
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
+            if (Input.GetButtonDown("Fire2"))
+            {
+                //Maak hologram
+                wallTemp = Instantiate(hologram, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
+            }
+
+            if (Input.GetButton("Fire2"))
+            {
+                //Check met hologram of plaatsing kan
+                if (hit.transform.gameObject != wallTemp.transform.GetChild(0).gameObject)
+                {
+                    wallTemp.transform.position = hit.point;
+                    wallTemp.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+                    wallTemp.transform.rotation *= Quaternion.LookRotation(Player.forward);
+
+                    if (wallTemp.transform.GetChild(0).GetComponent<HologramTriggerCheck>().inSomething == true || buildCount == 0)
+                    {
+                        MeshRenderer[] wallMats = wallTemp.transform.GetComponentsInChildren<MeshRenderer>();
+                        foreach (MeshRenderer mat in wallMats)
+                        {
+                            mat.material = badSeeThrough;
+                        }
+                    }
+
+                    if (wallTemp.transform.GetChild(0).GetComponent<HologramTriggerCheck>().inSomething == false && buildCount > 0)
+                    {
+                        MeshRenderer[] wallMats = wallTemp.transform.GetComponentsInChildren<MeshRenderer>();
+                        foreach (MeshRenderer mat in wallMats)
+                        {
+                            mat.material = seeThrough;
+                        }
+                    }
+                }
+
+            }
+
+            if (Input.GetButtonUp("Fire2"))
+            {
+                Destroy(wallTemp);
+                if (wallTemp.transform.GetChild(0).GetComponent<HologramTriggerCheck>().inSomething == false && buildCount > 0)
+                    Build(hit);
+                //Als plaatsing kan, plaats
+            }
+
+            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+            {
+                //Make sure we can't really shoot every frame
+                nextTimeToFire = Time.time + 1f / fireRate;
+                MuzzleFlash.Play();
+                Shoot(hit);
+            }
+        }
+
+        for (int i = 0; i < buildMeter.Length; i++)
+        {
+            if(buildCount >= i)
+            {
+                buildMeter[i].sprite = emptyBuild;
+            }
+
+            if(buildCount > i)
+            {
+                buildMeter[i].sprite = fullBuild;
+            }
+        }
+    }
+    void Build (RaycastHit hit)
+    {
             Debug.Log(hit.transform.name + hit.point);
 
-            //Only build on stuff that is considered environment
-            if (hit.transform.gameObject.tag == "Environment")
-            {
-                //Construct a wall on the location and have the rotation based on the normal of the object hit
-                Instantiate(wall, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
-                Debug.Log(hit.normal);
-            }
+        //Only build on stuff that is considered environment
+        if (hit.transform.gameObject.tag == "Environment")
+        {
+            //Construct a wall on the location and have the rotation based on the normal of the object hit
+            GameObject temp = Instantiate(wall, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
+            temp.transform.rotation *= Quaternion.LookRotation(Player.forward);
+            buildCount--;
         }
     }
 
-    void Shoot()
+    void Shoot(RaycastHit hit)
     {
         //Play the animation for the muzzle flash
-        MuzzleFlash.Play();
 
-        RaycastHit hit;
-        //Check if we hit something
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+        if (hit.transform.GetComponent<Enemy>() != null)
         {
-            if (hit.transform.GetComponent<Enemy>() != null)
-            {
-                hit.transform.GetComponent<Enemy>().health -= damage;
-            }
-
-            //Debug.Log("Pew");
-
-            if(hit.transform.parent != null)
-            {
-                //If the object is breakable, break it
-                if (hit.transform.parent.gameObject.tag == "Breakable" && hit.transform.parent.localScale == new Vector3(1, 1, 1))
-                {
-                    //Replace the object by the broken version
-                    Instantiate(brokenWall, hit.transform.parent.position, hit.transform.parent.rotation);
-                    Destroy(hit.transform.parent.gameObject);
-                }
-            }
-
-            //If we hit an object with a rigidbody, we add some force to it.
-            if(hit.transform.GetComponent<Rigidbody>() != null)
-            {
-                hit.transform.GetComponent<Rigidbody>().AddForce(fpsCam.transform.forward * 10, ForceMode.Impulse);
-            }
-
-            //Play an animation on the location we hit
-            Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            hit.transform.GetComponent<Enemy>().health -= damage;
         }
+
+        //Debug.Log("Pew");
+        if (hit.transform.parent != null)
+        {
+            //If the object is breakable, break it
+            if (hit.transform.parent.gameObject.tag == "Breakable" && hit.transform.root.localScale == new Vector3(1, 1, 1))
+            {
+                Transform temp = hit.transform.root;
+                //Replace the object by the broken version
+
+                temp.GetComponent<Break>().breakThis();
+            }
+        }
+
+        //If we hit an object with a rigidbody, we add some force to it.
+        if (hit.transform.GetComponent<Rigidbody>() != null)
+        {
+            hit.transform.GetComponent<Rigidbody>().AddForce(fpsCam.transform.forward * 10, ForceMode.Impulse);
+        }
+
+        //Play an animation on the location we hit
+        Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
     }
 }

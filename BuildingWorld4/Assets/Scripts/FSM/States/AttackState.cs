@@ -14,8 +14,10 @@ public class AttackState : EnemyState
     {
         base.PhysicsUpdate();
 
-        enemy.rightEye.LookAt(enemy.player.position);
-        enemy.leftEye.LookAt(enemy.player.position);
+        foreach(Transform eye in enemy.Eyes)
+        {
+            eye.transform.LookAt(enemy.player.position);
+        }
 
         Vector3 direction = enemy.player.position - enemy.transform.position;
         direction.y = 0;

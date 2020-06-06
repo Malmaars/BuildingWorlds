@@ -15,21 +15,27 @@ public class GrowUp : MonoBehaviour
     {
         this.transform.localScale = Vector3.zero;
         growSpeed = 0.05f;
-        MyBuilding = Instantiate(Building, this.transform.GetChild(0).position, this.transform.rotation, this.transform);
+        //MyBuilding = Instantiate(Building, this.transform.GetChild(0).position, this.transform.rotation, this.transform);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         if (this.transform.localScale.x < 1)
+        {
             this.transform.localScale = new Vector3(Mathf.Lerp(this.transform.localScale.x, 1.1f, growSpeed), Mathf.Lerp(this.transform.localScale.y, 1.1f, growSpeed), Mathf.Lerp(this.transform.localScale.z, 1.1f, growSpeed));
+/*            var particleShape = MyBuilding.transform.GetChild(0).GetComponent<ParticleSystem>().shape;
+            particleShape.scale = this.transform.GetChild(0).localScale;
+            particleShape = MyBuilding.transform.GetChild(1).GetComponent<ParticleSystem>().shape;
+            particleShape.scale = this.transform.GetChild(0).localScale;*/
+        }
 
         if (this.transform.localScale.x >= 1)
         {
             if (buildingDone == false)
             {
-                Destroy(MyBuilding);
-                Instantiate(DoneBuilding, this.transform.GetChild(0).position, this.transform.rotation);
+                //Destroy(MyBuilding);
+                //Instantiate(DoneBuilding, this.transform.GetChild(0).position, this.transform.rotation);
                 buildingDone = true;
             }
             this.transform.localScale = new Vector3(1, 1, 1);

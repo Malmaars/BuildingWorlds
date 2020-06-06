@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 135b7a1d27fd6834287dbc45b1cd959a, type: 3}
+  m_Name: Wall
+  m_EditorClassIdentifier: 
+  ammoExample: {fileID: 207690164489121431, guid: 0312f8b993ff8954cbb11abd26065916,
+    type: 3}
+  fullBody: {fileID: 8857471385039954445, guid: 0999b2b3d0fdb0a4d883bfc27f751cd9,
+    type: 3}
+  brokenBody: {fileID: 2416285706071755558, guid: 516813d0b608f714b9efb9eacb68a86a,
+    type: 3}
+  hologram: {fileID: 8857471385039954445, guid: 547a272a0048ec84db141281050c27cd,
+    type: 3}

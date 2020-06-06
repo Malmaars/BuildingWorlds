@@ -12,8 +12,7 @@ public class Enemy : MonoBehaviour
     public Transform player;
     public LayerMask enemyLayer;
 
-    public Transform rightEye;
-    public Transform leftEye;
+    public Transform[] Eyes;
 
     public int health;
     public GameObject deathEnemy;
@@ -38,7 +37,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         EnemySM.CurrentState.LogicUpdate();
-        Debug.Log(EnemySM.CurrentState);
+        //Debug.Log(EnemySM.CurrentState);
     }
     private void FixedUpdate()
     {
