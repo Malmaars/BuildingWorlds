@@ -2039,6 +2039,7 @@ Transform:
   - {fileID: 435468019260380623}
   - {fileID: 435468019898663438}
   - {fileID: 433557102854165596}
+  - {fileID: 4940074027624214912}
   m_Father: {fileID: 8379527506249161384}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5256,6 +5257,64 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &456817928003720239
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4940074027624214912}
+  - component: {fileID: 1304708893075291838}
+  - component: {fileID: 8457626607550795060}
+  m_Layer: 11
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4940074027624214912
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456817928003720239}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 5.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 435468019118755642}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1304708893075291838
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456817928003720239}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.010908, y: 4.41232, z: 4.832239}
+  m_Center: {x: 0.019731525, y: -0.093349956, z: 0.83459276}
+--- !u!114 &8457626607550795060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456817928003720239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56fb4eb7e9709b64b8555c8bc03c480e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnLoc: {fileID: 0}
 --- !u!1 &4760680865482041531
 GameObject:
   m_ObjectHideFlags: 0
@@ -5392,8 +5451,8 @@ MonoBehaviour:
   health: 100
   deathEnemy: {fileID: 947233534042188973, guid: a6c84dadac9f9084185c197ba53f4069,
     type: 3}
-  maxAngle: 55
-  maxRadius: 50
+  maxAngle: 60
+  maxRadius: 100
   viewRange: 20
   moveSpeed: 8
   rotSpeed: 5

@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 velocity;
     bool isGrounded;
+
+    public float respawn;
     
     // Start is called before the first frame update
     void Start()
@@ -33,53 +35,69 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //We check if the player is on the ground
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance);
-
-        //Make sure we stay on the ground by adding some velocity while on the ground
-        if (isGrounded && velocity.y < 0)
+        if (respawn >= 0.5)
         {
-            velocity.y = -3f;
+            //We check if the player is on the ground
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance);
+
+            //Make sure we stay on the ground by adding some velocity while on the ground
+            if (isGrounded && velocity.y < 0)
+            {
+                velocity.y = -9f;
+            }
+
+            //Get the movement input
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+
+            //where we need to move based on the input
+            Vector3 move = transform.right * x + transform.forward * z;
+
+            //Move based on the input
+            controller.Move(move * speed * Time.deltaTime);
+
+            //Jump if we are grounded and press the jump button
+            if (Input.GetButtonDown("Jump") && isGrounded)
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+            }
+
+            //Move down based on the amount of velocity
+            controller.Move(velocity * Time.deltaTime);
+            velocity.y += gravity * Time.deltaTime;
+
+            if (Input.GetKeyUp(KeyCode.R))
+            {
+                resetAmmo();
+            }
         }
 
-        //Get the movement input
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        //where we need to move based on the input
-        Vector3 move = transform.right * x + transform.forward * z;
-
-        //Move based on the input
-        controller.Move(move * speed * Time.deltaTime);
-
-        //Jump if we are grounded and press the jump button
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if(respawn < 0.5)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+            respawn += Time.deltaTime;
         }
+    }
 
-        //Move down based on the amount of velocity
-        controller.Move(velocity * Time.deltaTime);
-        velocity.y += gravity * Time.deltaTime;
+    public void resetAmmo()
+    {
 
-        if (Input.GetKeyUp(KeyCode.R))
+        GameObject[] breakables = GameObject.FindGameObjectsWithTag("Breakable");
+
+        if (breakables.Length != 0)
         {
-
-            GameObject[] breakables = GameObject.FindGameObjectsWithTag("Breakable");
-
-            foreach(GameObject breakable in breakables)
+            foreach (GameObject breakable in breakables)
             {
                 breakable.GetComponent<Break>().breakThis();
             }
-
-            GameObject[] ammos = GameObject.FindGameObjectsWithTag("Ammo");
-            foreach(GameObject thing in ammos)
-            {
-                if (thing.GetComponent<ammoPickup>() != null)
-                    thing.GetComponent<ammoPickup>().Reset();
-            }
-
-            GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Gun>().buildCount = 0;
         }
+
+        GameObject[] ammos = GameObject.FindGameObjectsWithTag("Ammo");
+        foreach (GameObject thing in ammos)
+        {
+            if (thing.GetComponent<ammoPickup>() != null)
+                thing.GetComponent<ammoPickup>().Reset();
+        }
+
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Gun>().buildCount = 0;
     }
 }

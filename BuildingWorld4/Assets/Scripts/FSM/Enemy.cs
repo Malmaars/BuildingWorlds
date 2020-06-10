@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
         wander = new WanderState(this, EnemySM);
         attack = new AttackState(this, EnemySM);
         enemyLayer = LayerMask.GetMask("Enemy");
+        player = GameObject.FindGameObjectWithTag("Player").transform;
 
         EnemySM.Initialize(wander);
     }

@@ -30,7 +30,7 @@ public abstract class EnemyState
         if(enemy.health <= 0)
         {
             //Die. This doesn't really need a state, because the enemy will stop being
-            enemy.Die();
+            //enemy.Die();
         }
     }
 

@@ -24,7 +24,7 @@ public class AttackState : EnemyState
         Quaternion toRotation = Quaternion.LookRotation(direction);
         enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, toRotation, enemy.rotSpeed * Time.deltaTime);
 
-        //enemy.transform.position = enemy.transform.position + (enemy.transform.forward * Time.deltaTime * enemy.moveSpeed / 3);
+        enemy.transform.position = enemy.transform.position + (enemy.transform.forward * Time.deltaTime * enemy.moveSpeed);
     }
 
     public void Fire()
