@@ -61,5 +61,25 @@ public class PlayerMovement : MonoBehaviour
         //Move down based on the amount of velocity
         controller.Move(velocity * Time.deltaTime);
         velocity.y += gravity * Time.deltaTime;
+
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+
+            GameObject[] breakables = GameObject.FindGameObjectsWithTag("Breakable");
+
+            foreach(GameObject breakable in breakables)
+            {
+                breakable.GetComponent<Break>().breakThis();
+            }
+
+            GameObject[] ammos = GameObject.FindGameObjectsWithTag("Ammo");
+            foreach(GameObject thing in ammos)
+            {
+                if (thing.GetComponent<ammoPickup>() != null)
+                    thing.GetComponent<ammoPickup>().Reset();
+            }
+
+            GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Gun>().buildCount = 0;
+        }
     }
 }

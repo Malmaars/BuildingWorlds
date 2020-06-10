@@ -9,7 +9,7 @@ public class HologramTriggerCheck : MonoBehaviour
     public void OnTriggerStay(Collider other)
     {
         inSomething = true;
-        Debug.Log("NO");
+        //Debug.Log("NO");
     }
 
     private void OnTriggerExit(Collider other)

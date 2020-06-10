@@ -16,10 +16,13 @@ public class BodyPosition : MonoBehaviour
     //The offset we want to use in the height calculation
     public float offset;
 
+    private float scaler;
+
     // Start is called before the first frame update
     void Awake()
     {
-
+        scaler = transform.parent.localScale.x;
+        offset *= scaler;
     }
 
     // Update is called once per frame
@@ -80,7 +83,7 @@ public class BodyPosition : MonoBehaviour
 
         float rotationStrength = 3f;
         //Right minus Left, Back minus Front
-        transform.rotation = Quaternion.Euler((backHeight - frontHeight) * rotationStrength, transform.localEulerAngles.y, (rightHeight - leftHeight) * rotationStrength);
+        transform.rotation = Quaternion.Euler((backHeight - frontHeight) * rotationStrength, transform.eulerAngles.y, (rightHeight - leftHeight) * rotationStrength);
 
     }
 }

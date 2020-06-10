@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Breakable
   - Environment
+  - Ammo
   layers:
   - Default
   - TransparentFX

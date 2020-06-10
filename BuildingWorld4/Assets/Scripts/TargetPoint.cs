@@ -34,15 +34,20 @@ public class TargetPoint : MonoBehaviour
     bool isGrounded;
     float groundDistance = 0.2f;
 
+    private float scaler;
+
 
     // Start is called before the first frame update
     void Awake()
     {
-
+        scaler = transform.root.localScale.x;
+        //moveSpeed /= scaler;
+        groundDistance *= scaler;
         //We make sure that the leg is on level with the ground when the game begins
         RaycastHit hit;
-        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 3, transform.position.z), -Vector3.up, out hit, 100f, ~IgnoreMe))
+        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), -Vector3.up, out hit, 100f, ~IgnoreMe))
         {
+            transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
             bottomLeg.position = new Vector3(bottomLeg.position.x, hit.point.y, bottomLeg.position.z);
         }
 
@@ -55,17 +60,17 @@ public class TargetPoint : MonoBehaviour
 
         //shoot out a raycast and check if it hits anything
         RaycastHit hit;
-        if(Physics.Raycast(new Vector3(transform.position.x,transform.position.y + 3, transform.position.z), -Vector3.up, out hit, 100f, ~IgnoreMe))
+        if(Physics.Raycast(new Vector3(transform.position.x,transform.position.y + 1, transform.position.z), -Vector3.up, out hit, 100f, ~IgnoreMe))
         {
             //make sure we're always on the ground
-            transform.localPosition = new Vector3(transform.localPosition.x, hit.point.y, transform.localPosition.z);
+            transform.localPosition = new Vector3(transform.localPosition.x, -0.87f, transform.localPosition.z);
             //Debug.Log(Vector3.Distance(hit.point, bottomLeg.position));
 
             //Use the formula to calculate the difference between two points, because we want a different movement between the x and the z axis.
             //And check if the leg is already moving
-            if(((hit.point.x - bottomLeg.position.x) * (hit.point.x - bottomLeg.position.x) > 5f*5f ||
-                (hit.point.z - bottomLeg.position.z) * (hit.point.z - bottomLeg.position.z) > 3f*3f) &&
-                isMoving == false && 
+            if(((hit.point.x - bottomLeg.position.x) * (hit.point.x - bottomLeg.position.x) > 5f*5f * scaler ||
+                (hit.point.z - bottomLeg.position.z) * (hit.point.z - bottomLeg.position.z) > 3f*3f * scaler) &&
+                isMoving == false &&
                 oppositeLeg1.GetComponentInChildren<TargetPoint>().isGrounded == true &&
                 oppositeLeg2.GetComponentInChildren<TargetPoint>().isGrounded == true)
             {
@@ -94,12 +99,12 @@ public class TargetPoint : MonoBehaviour
 
             if(currentTarget.y >= oldPos.y)
             {
-                stepHeight = currentTarget.y + 5;
+                stepHeight = currentTarget.y + 5 * scaler;
             }
 
             if (currentTarget.y < oldPos.y)
             {
-                stepHeight = oldPos.y + 5;
+                stepHeight = oldPos.y + 5 * scaler;
             }
 
             //Continuously calculate the distance between the target and the current position of the foot, but only on the x and z axis
@@ -124,7 +129,7 @@ public class TargetPoint : MonoBehaviour
             //Debug.Log(Vector3.Distance(currentTarget, bottomLeg.position));
 
             //If the current position of the foot is close enough to the target, we stop moving
-            if (Vector3.Distance(currentTarget, bottomLeg.position) < 0.1f)
+            if (Vector3.Distance(currentTarget, bottomLeg.position) < 0.1f * scaler)
                 isMoving = false;
         }
     }

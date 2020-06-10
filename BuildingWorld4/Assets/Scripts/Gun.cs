@@ -19,7 +19,7 @@ public class Gun : MonoBehaviour
     public Image[] buildMeter;
     public Sprite fullBuild;
     public Sprite emptyBuild;
-    public int buildCount = 3;
+    public int buildCount = 0;
 
     public Camera fpsCam;
     public Transform Player;
@@ -79,35 +79,36 @@ public class Gun : MonoBehaviour
                     Build(hit);
                 //Als plaatsing kan, plaats
             }
+        }
 
-            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
-            {
-                //Make sure we can't really shoot every frame
-                nextTimeToFire = Time.time + 1f / fireRate;
-                MuzzleFlash.Play();
+        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+        {
+            //Make sure we can't really shoot every frame
+            nextTimeToFire = Time.time + 1f / fireRate;
+            MuzzleFlash.Play();
+            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
                 Shoot(hit);
-            }
         }
 
         for (int i = 0; i < buildMeter.Length; i++)
         {
-            if(buildCount >= i)
-            {
-                buildMeter[i].sprite = emptyBuild;
-            }
-
-            if(buildCount > i)
+            if(buildCount >= i+1)
             {
                 buildMeter[i].sprite = fullBuild;
+            }
+
+            if(buildCount < i+1)
+            {
+                buildMeter[i].sprite = emptyBuild;
             }
         }
     }
     void Build (RaycastHit hit)
     {
-            Debug.Log(hit.transform.name + hit.point);
+        //Debug.Log(hit.transform.name + hit.point);
 
         //Only build on stuff that is considered environment
-        if (hit.transform.gameObject.tag == "Environment")
+        if (hit.transform.gameObject.tag == "Environment" || hit.transform.gameObject.tag == "Breakable")
         {
             //Construct a wall on the location and have the rotation based on the normal of the object hit
             GameObject temp = Instantiate(wall, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
