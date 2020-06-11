@@ -23,7 +23,7 @@ public class friendlySpider : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(playerCamera.position);
         }
-        transform.LookAt(player.position);
+        transform.LookAt(playerCamera.position);
         float distancefromPlayer = Mathf.Pow(Mathf.Pow((transform.position.x - player.position.x), 2) + Mathf.Pow((transform.position.z - player.position.z), 2), 0.5f);
         if (distancefromPlayer > 20f && distancefromPlayer < 50f && canMove)
         {

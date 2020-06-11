@@ -21317,6 +21317,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4336423747387250196, guid: 76de5bf737a8e4e47bfd10f72800aa02,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4336423747387250202, guid: 76de5bf737a8e4e47bfd10f72800aa02,
         type: 3}
       propertyPath: player
@@ -27471,7 +27476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &435468019161871673
 Transform:
   m_ObjectHideFlags: 0
@@ -40318,7 +40323,7 @@ MonoBehaviour:
   - {fileID: 1380916917}
   fullBuild: {fileID: 21300000, guid: c04d74931a945c049845e832bd966b96, type: 3}
   emptyBuild: {fileID: 21300000, guid: 605ccd413d41edb4397c4ad966f0cc57, type: 3}
-  buildCount: 3
+  buildCount: 0
   fpsCam: {fileID: 3717217678955853548}
   Player: {fileID: 3717217678598008148}
   MuzzleFlash: {fileID: 3717217677818774297}
@@ -40397,8 +40402,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3717217678598008151}
-  m_LocalRotation: {x: -0, y: 0.33536, z: -0, w: -0.9420901}
-  m_LocalPosition: {x: -2091.9, y: 170.3, z: -543.4}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -6.6, y: 3.9, z: 111.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3717217678204888608}
@@ -40406,7 +40411,7 @@ Transform:
   - {fileID: 3717217679007531263}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 320.811, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!143 &3717217678598008149
 CharacterController:
   m_ObjectHideFlags: 0
