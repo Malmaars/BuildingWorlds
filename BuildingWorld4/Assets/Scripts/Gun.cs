@@ -28,6 +28,10 @@ public class Gun : MonoBehaviour
 
     private float nextTimeToFire;
 
+    public AudioClip shotSound;
+    public AudioClip buildSound;
+    public AudioSource audioSRC;
+
     // Update is called once per frame
     void Update()
     {
@@ -76,7 +80,10 @@ public class Gun : MonoBehaviour
             {
                 Destroy(wallTemp);
                 if (wallTemp.transform.GetChild(0).GetComponent<HologramTriggerCheck>().inSomething == false && buildCount > 0)
+                {
                     Build(hit);
+                    audioSRC.PlayOneShot(buildSound);
+                }
                 //Als plaatsing kan, plaats
             }
         }
@@ -86,6 +93,7 @@ public class Gun : MonoBehaviour
             //Make sure we can't really shoot every frame
             nextTimeToFire = Time.time + 1f / fireRate;
             MuzzleFlash.Play();
+            audioSRC.PlayOneShot(shotSound);
             if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
                 Shoot(hit);
         }

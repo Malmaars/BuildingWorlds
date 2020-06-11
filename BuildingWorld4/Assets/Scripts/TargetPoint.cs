@@ -36,6 +36,9 @@ public class TargetPoint : MonoBehaviour
 
     private float scaler;
 
+    public AudioSource audioSRC;
+    public AudioClip step;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -130,7 +133,10 @@ public class TargetPoint : MonoBehaviour
 
             //If the current position of the foot is close enough to the target, we stop moving
             if (Vector3.Distance(currentTarget, bottomLeg.position) < 0.1f * scaler)
+            {
                 isMoving = false;
+                audioSRC.PlayOneShot(step);
+            }
         }
     }
 }

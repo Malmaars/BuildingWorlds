@@ -37,6 +37,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        float distancefromPlayer = Mathf.Pow(Mathf.Pow((transform.position.x - player.position.x), 2) + Mathf.Pow((transform.position.z - player.position.z), 2), 0.5f);
+        GetComponent<AudioSource>().volume = 1 / distancefromPlayer;
         EnemySM.CurrentState.LogicUpdate();
         //Debug.Log(EnemySM.CurrentState);
     }

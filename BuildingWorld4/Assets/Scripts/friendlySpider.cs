@@ -30,6 +30,8 @@ public class friendlySpider : MonoBehaviour
             transform.position = transform.position + (transform.forward * Time.deltaTime * moveSpeed);
         }
 
+        GetComponent<AudioSource>().volume = 1 / distancefromPlayer;
+
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 100f, LayerMask.NameToLayer("Player")))
         {
